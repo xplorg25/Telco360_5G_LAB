@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+
+<Properties>
+<Property name="LOG_PATTERN">%d{'Date:-'yyyy-MM-dd' Time:-'HH:mm:ss.SSS' GMT'Z} %m%n</Property>
+<!-- <Property name="LOG_PATH_INFO">D:/Telco360_Logs/logs/security</Property>
+<Property name="LOG_PATH">D:/Telco360_Logs/logs</Property> -->
+
+<Property name="LOG_PATH_INFO">/home/admin/xplorg/demo/Telco360_Logs/logs</Property>
+<Property name="LOG_PATH">/home/admin/xplorg/demo/Telco360_Logs/logs</Property>
+ </Properties>
+
+<Appenders>
+
+<Console name="Console" target="SYSTEM_OUT" follow="true">
+<PatternLayout pattern="${LOG_PATTERN}"/>
+</Console>
+
+<RollingFile name="debugLog" fileName="${LOG_PATH}/Telco360-debug.log"
+filePattern="${LOG_PATH}/$${date:yyyy-MM}/Telco360-debug-%d{yyyy-MM-dd}-%i.log.gz">
+<LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+<PatternLayout pattern="${LOG_PATTERN}"/>
+<Policies>
+<SizeBasedTriggeringPolicy size="10MB" />
+</Policies>
+<DefaultRolloverStrategy max="10"/>
+</RollingFile>
+
+<RollingFile name="infoLog" fileName="${LOG_PATH_INFO}/Telco360-info.log"
+filePattern="${LOG_PATH_INFO}/$${date:yyyy-MM}/Telco360-info-%d{yyyy-MM-dd}-%i.log.gz" >
+<LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+<PatternLayout pattern="${LOG_PATTERN}"/>
+<Policies>
+<SizeBasedTriggeringPolicy size="10MB" />
+</Policies>
+<DefaultRolloverStrategy max="10"/>
+</RollingFile>
+
+<RollingFile name="errorLog" fileName="${LOG_PATH}/Telco360-error.log"
+filePattern="${LOG_PATH}/$${date:yyyy-MM}/Telco360-error-%d{yyyy-MM-dd}-%i.log.gz" >
+<LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+<PatternLayout pattern="${LOG_PATTERN}"/>
+<Policies>
+<SizeBasedTriggeringPolicy size="10MB" />
+</Policies>
+<DefaultRolloverStrategy max="10"/>
+</RollingFile>
+
+</Appenders>
+
+<Loggers>
+
+<Logger name="org.xplorg.tool.telco360" additivity="false">
+<AppenderRef ref="debugLog" />
+<AppenderRef ref="infoLog"  />
+<AppenderRef ref="errorLog" />
+<!-- <AppenderRef ref="Console"  /> -->
+</Logger>
+<Root level="all">
+<!-- <AppenderRef ref="Console"/> -->
+</Root>
+</Loggers>
+
+</Configuration>
