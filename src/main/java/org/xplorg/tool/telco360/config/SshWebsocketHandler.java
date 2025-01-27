@@ -1,4 +1,4 @@
-package com.terminal.ssh_terminal.handler;
+package org.xplorg.tool.telco360.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
