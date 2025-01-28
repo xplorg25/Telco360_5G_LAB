@@ -3,6 +3,8 @@ package org.xplorg.tool.telco360.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
+import org.xplorg.tool.telco360.encrptDecrypt.RSAUtil;
+
 import com.jcraft.jsch.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
@@ -91,8 +94,11 @@ public class SshWebsocketHandler implements WebSocketHandler {
 
             sshSessions.put(webSocketSession.getId(), sshSession);
             isAuthenticated.put(webSocketSession.getId(), true); // Mark as authenticated
-
+            	
+           KeyPair keyPairs= RSAUtil.generateRSAKeyPair();
+            String publicKey = RSAUtil.getPublicKey(keyPairs);
             webSocketSession.sendMessage(new TextMessage("Info: SSH connection established."));
+            
         } catch (JSchException e) {
             logger.error("SSH connection failed for session {}: {}", webSocketSession.getId(), e.getMessage(), e);
             webSocketSession.sendMessage(new TextMessage("Error: Failed to connect to SSH. Invalid credentials."));
